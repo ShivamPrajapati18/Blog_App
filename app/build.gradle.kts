@@ -66,9 +66,3 @@ dependencies {
 kapt {
     correctErrorTypes = true
 }
-
-//configurations.all {
-//    resolutionStrategy {
-//        force("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
-//    }
-//}

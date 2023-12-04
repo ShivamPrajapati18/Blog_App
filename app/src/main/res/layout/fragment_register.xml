@@ -4,12 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
     tools:context=".RegisterFragment">
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Create A New Account"
+        android:textStyle="bold"
+        android:textColor="@color/orange"
+        android:textSize="32sp" />
+    <EditText
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="lreaklsf l sklf jl jsjals jlsf js"
-        />
+        android:layout_marginTop="60dp"
+        android:background="@drawable/login_editext_bg"
+        android:padding="10dp"
+        android:hint="Enter the Name"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_editext_bg"
+        android:padding="10dp"
+        android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/outline_email_24"
+        android:drawablePadding="5dp"
+        android:hint="Enter Your Email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/login_editext_bg"
+        android:padding="10dp"
+        android:hint="Enter the Password"
+        android:inputType="textPassword" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/orange"
+        android:background="@drawable/login_editext_bg"
+        android:text="Register" />
 
 </LinearLayout>

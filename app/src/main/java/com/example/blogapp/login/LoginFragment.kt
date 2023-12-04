@@ -1,13 +1,11 @@
 package com.example.blogapp.login
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.blogapp.R
 import com.example.blogapp.databinding.FragmentLoginBinding
@@ -20,7 +18,6 @@ class LoginFragment : Fragment() {
 
     @Inject
     lateinit var mAuth: FirebaseAuth
-    val userViewModel: UserViewModel by viewModels<UserViewModel>()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
@@ -64,13 +61,17 @@ class LoginFragment : Fragment() {
                 }
             }
         }
-
         binding.signUpTxt.setOnClickListener {
             Toast.makeText(context, "Sign Up Clicked", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
-
+    override fun onStart() {
+        super.onStart()
+        if (mAuth.currentUser!=null){
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
