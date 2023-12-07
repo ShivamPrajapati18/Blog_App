@@ -68,6 +68,7 @@ class LoginFragment : Fragment() {
     }
     override fun onStart() {
         super.onStart()
+        //Checking for current User Logged In or Not
         if (mAuth.currentUser!=null){
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }

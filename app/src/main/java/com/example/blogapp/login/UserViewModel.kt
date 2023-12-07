@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject
-constructor(val usersDao: UsersDao) : ViewModel() {
+constructor(private val usersRepository: UsersRepository) : ViewModel() {
 
     fun addUSerinDb(user: User) {
         viewModelScope.launch {
-            usersDao.addUserInDB(user)
+            usersRepository.addUserInDB(user)
         }
     }
 }
