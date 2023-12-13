@@ -1,5 +1,6 @@
 package com.example.blogapp.addPost
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,7 +24,7 @@ class AddPostFragment : Fragment() {
     private val binding get() = _binding!!
     @Inject
     lateinit var mAuth: FirebaseAuth
-    val viewModel by viewModels<PostViewModel>()
+    private val viewModel:PostViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -34,6 +35,7 @@ class AddPostFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.postBtn.setOnClickListener {

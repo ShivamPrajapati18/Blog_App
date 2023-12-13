@@ -12,9 +12,17 @@ import javax.inject.Inject
 class PostViewModel @Inject constructor(
     private val postRepository: PostRepository
 ) :ViewModel() {
+    val allPost
+        get() = postRepository.postList
     fun addPost(post: Post){
         viewModelScope.launch(Dispatchers.IO){
             postRepository.addPost(post)
+        }
+    }
+
+    fun getPost(){
+        viewModelScope.launch (Dispatchers.IO){
+            postRepository.getPost()
         }
     }
 }
