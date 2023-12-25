@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center"
     tools:context=".login.RegisterFragment">
 
     <TextView
@@ -14,32 +15,42 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Create A New Account"
-        android:textStyle="bold"
         android:textColor="@color/orange"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_person_24"
+        android:layout_marginTop="60dp"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
     <EditText
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/login_editext_bg"
-        android:padding="10dp"
         android:drawableStart="@drawable/baseline_person_24"
         android:drawablePadding="5dp"
         android:hint="Enter the Name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_editext_bg"
-        android:padding="10dp"
         android:layout_marginTop="32dp"
+        android:background="@drawable/login_editext_bg"
         android:drawableStart="@drawable/outline_email_24"
         android:drawablePadding="5dp"
         android:hint="Enter Your Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/password"
@@ -47,11 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/login_editext_bg"
-        android:padding="10dp"
         android:drawableStart="@drawable/baseline_lock_24"
         android:drawablePadding="5dp"
         android:hint="Enter the Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:padding="10dp" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -59,9 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/orange"
         android:background="@drawable/login_editext_bg"
-        android:text="Register" />
+        android:backgroundTint="@color/orange"
+        android:text="Register"
+        android:textColor="@color/white" />
 
 </LinearLayout>

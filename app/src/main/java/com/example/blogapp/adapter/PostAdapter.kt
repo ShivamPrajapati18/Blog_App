@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.blogapp.databinding.PostRvSampleBinding
 import com.example.blogapp.model.Post
 
-class PostAdapter(val item:List<Post>): RecyclerView.Adapter<PostAdapter.MyViewHolder>() {
+class PostAdapter(private val item:List<Post>, val onClick:(currentItem:Post)->Unit): RecyclerView.Adapter<PostAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding=PostRvSampleBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return MyViewHolder(binding)
@@ -14,9 +14,15 @@ class PostAdapter(val item:List<Post>): RecyclerView.Adapter<PostAdapter.MyViewH
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem=item[position]
-        holder.binding.postAuthor.text="ABCD"
-        holder.binding.postTitle.text=currentItem.title
-        holder.binding.description.text=currentItem.description
+        holder.binding.apply {
+            postAuthor.text= currentItem.authorName
+            postTitle.text=currentItem.title
+            description.text=currentItem.description
+            postTime.text=currentItem.date
+            postReadButton.setOnClickListener {
+                onClick(currentItem)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
