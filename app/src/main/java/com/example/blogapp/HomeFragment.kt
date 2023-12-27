@@ -30,7 +30,6 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var mAuth: FirebaseAuth
     private var profileImage: Uri? = null
-    private var userName:String=""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -45,10 +44,10 @@ class HomeFragment : Fragment() {
         binding.addPost.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addPostFragment)
         }
-        viewModel.getPost()
+        viewModel.getPost(mAuth.uid!!)
         lifecycleScope.launch {
             viewModel.allPost.collect {
-                binding.recyclerView.adapter = PostAdapter(it, ::onClickReadButton)
+                binding.recyclerView.adapter = PostAdapter(it, ::onClickReadButton,mAuth.uid)
                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
             }
         }
@@ -62,17 +61,13 @@ class HomeFragment : Fragment() {
                 .into(binding.profileImage)
         }
         binding.profileImage.setOnClickListener {
-            val bundle = bundleOf(
-                "img" to profileImage,
-                "user" to userName
-            )
+            val bundle = bundleOf("img" to profileImage.toString())
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment,bundle)
         }
     }
 
     private fun onClickReadButton(currentItem: Post) {
         val bundle = bundleOf("post" to currentItem)
-        userName=currentItem.authorName
         findNavController().navigate(R.id.action_homeFragment_to_readPostFragment, bundle)
     }
 

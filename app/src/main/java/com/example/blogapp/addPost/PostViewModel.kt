@@ -16,6 +16,8 @@ class PostViewModel @Inject constructor(
 ) : ViewModel() {
     val allPost
         get() = postRepository.postList
+    val userPost
+        get() = postRepository.userPostList
 
     val user = usersRepository.user
     val profileImg
@@ -26,9 +28,9 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun getPost() {
+    fun getPost(uid:String) {
         viewModelScope.launch(Dispatchers.IO) {
-            postRepository.getPost()
+            postRepository.getPost(uid)
         }
     }
 
@@ -41,6 +43,12 @@ class PostViewModel @Inject constructor(
     fun getProfileImage(name:String){
         viewModelScope.launch {
             usersRepository.getProfileImage(name)
+        }
+    }
+
+    fun getUserPost(uid:String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            postRepository.getUserPost(uid)
         }
     }
 }
