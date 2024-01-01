@@ -1,7 +1,9 @@
 package com.example.blogapp.addPost
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,10 +28,12 @@ import javax.inject.Inject
 class AddPostFragment : Fragment() {
     private var _binding: FragmentAddPostBinding? = null
     private val binding get() = _binding!!
-    private var user: String=""
+    private var user: String = ""
+
     @Inject
     lateinit var mAuth: FirebaseAuth
     private val viewModel: PostViewModel by viewModels()
+    private var isUpdateForPost: Post? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -47,21 +51,57 @@ class AddPostFragment : Fragment() {
         viewModel.getUser(authorId)
         lifecycleScope.launch {
             viewModel.user.collectLatest {
-                user=it
+                user = it
             }
         }
-        binding.postBtn.setOnClickListener {
+        isUpdateForPost = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable("post", Post::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getParcelable("post")
+        }
+
+        //handling visibility of add and update button
+        if (isUpdateForPost != null) {
+            binding.addPostBtn.visibility = View.GONE
+            binding.updatePost.visibility = View.VISIBLE
+            // set the text for edit
+            binding.title.setText(isUpdateForPost?.title)
+            binding.description.setText(isUpdateForPost?.description)
+        } else {
+            binding.addPostBtn.visibility = View.VISIBLE
+            binding.updatePost.visibility = View.GONE
+        }
+        binding.addPostBtn.setOnClickListener {
             val postTitle = binding.title.text.toString()
             val postDescription = binding.description.text.toString()
             val date = SimpleDateFormat("dd-MM-yyyy").format(Date().time)
-            val postUid=UUID.randomUUID().toString()+System.currentTimeMillis().toString()
+            val postUid = UUID.randomUUID().toString() + System.currentTimeMillis()
             if (postTitle.isEmpty() && postDescription.isEmpty()) {
                 Toast.makeText(context, "Fill The All Filed", Toast.LENGTH_SHORT).show()
             } else {
                 //Creating post Object
-                val post = Post(postUid,authorId,user, postTitle, postDescription, date)
+                val post = Post(postUid, authorId, user, postTitle, postDescription, date)
                 viewModel.addPost(post)
                 findNavController().popBackStack()
+            }
+        }
+
+        binding.updatePost.setOnClickListener {
+            val postTitle = binding.title.text.toString()
+            val postDescription = binding.description.text.toString()
+            val date = SimpleDateFormat("dd-MM-yyyy").format(Date().time)
+            val post = isUpdateForPost!!
+            if ((postTitle.isEmpty() && postDescription.isEmpty())){
+                Toast.makeText(context, "Fill The All Filed", Toast.LENGTH_SHORT).show()
+            }else{
+                if (post.title != postTitle || post.description != postDescription){
+                    val updatePost = Post(post.postId,post.authorId,post.authorName, postTitle,postDescription,date)
+                    viewModel.updatePost(updatePost)
+                    findNavController().popBackStack()
+                }else{
+                    Toast.makeText(context, "No changes", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

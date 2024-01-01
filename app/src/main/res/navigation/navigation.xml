@@ -78,5 +78,8 @@
         <action
             android:id="@+id/action_profileFragment_to_readPostFragment"
             app:destination="@id/readPostFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
     </fragment>
 </navigation>

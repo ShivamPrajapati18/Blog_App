@@ -18,7 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment() {
+class
+RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
@@ -47,8 +48,11 @@ class RegisterFragment : Fragment() {
                     val user = User(mAuth.uid!!, name, email)
                     userViewModel.addUSerinDb(user = user)
                     //checking profileImage is not Null and add into the firebase storage
-                    profileImage?.let { profileImage->
-                        userViewModel.addProfileImage(mAuth.uid!!,profileImage)
+                    profileImage?.let { profileImage ->
+                        userViewModel.addProfileImage(
+                            name = mAuth.uid!!,
+                            profileImage = profileImage
+                        )
                     }
                     findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
                 } else {
@@ -63,10 +67,10 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) {uri->
+    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
             binding.profileImage.setImageURI(it)
-            profileImage=it
+            profileImage = it
         }
     }
 

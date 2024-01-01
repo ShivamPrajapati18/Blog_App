@@ -49,6 +49,5 @@ class UsersRepository @Inject constructor(){
     suspend fun getProfileImage(name: String){
         val img=storage.child("profile/$name").downloadUrl.await()
         _profileImg.value=img
-        Log.d("@@@",profileImg.value.toString())
     }
 }

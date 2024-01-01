@@ -34,13 +34,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/postBtn"
+        android:id="@+id/addPostBtn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/orange"
         android:text="Post Blog"
+        app:cornerRadius="10dp"
+        />
+
+    <Button
+        android:id="@+id/updatePost"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:backgroundTint="@color/orange"
+        android:text="Update Blog"
         app:cornerRadius="10dp"
         />
 
