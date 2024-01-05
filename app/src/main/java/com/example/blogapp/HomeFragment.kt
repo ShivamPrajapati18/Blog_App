@@ -1,5 +1,6 @@
 package com.example.blogapp
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
         viewModel.getPost(mAuth.uid!!)
         lifecycleScope.launch {
             viewModel.allPost.collect {
-                binding.recyclerView.adapter = PostAdapter(it, ::onClickReadButton,mAuth.uid)
+                binding.recyclerView.adapter = PostAdapter(it, ::onClickReadButton,mAuth.uid,::onClickLikedButton)
                 binding.recyclerView.layoutManager = LinearLayoutManager(context)
             }
         }
@@ -69,6 +70,12 @@ class HomeFragment : Fragment() {
     private fun onClickReadButton(currentItem: Post) {
         val bundle = bundleOf("post" to currentItem)
         findNavController().navigate(R.id.action_homeFragment_to_readPostFragment, bundle)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun onClickLikedButton(currentItem: Post){
+        viewModel.updateLiked(currentItem,mAuth.uid!!)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

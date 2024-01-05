@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.blogapp.di.PostNode
 import com.example.blogapp.model.Post
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,9 @@ class PostRepository @Inject constructor() {
     @Inject
     @PostNode
     lateinit var postRef: CollectionReference
+
+    @Inject
+    lateinit var mAuth: FirebaseAuth
     private val _postList = MutableStateFlow<List<Post>>(emptyList())
     val postList: StateFlow<List<Post>>
         get() = _postList.asStateFlow()
@@ -65,9 +69,11 @@ class PostRepository @Inject constructor() {
         val ref = postRef.document(postID)
         try {
             ref.delete().await()
-            _deleteResult.value = "Document successfully deleted!"
+            Log.d("@@", "successfully")
+//            _deleteResult.value = "Document  deleted!"
         } catch (e: Exception) {
-            _deleteResult.value = "Error deleting document: $e"
+            Log.d("@@", "failure")
+//            _deleteResult.value = "Error deleting document: $e"
         }
     }
 
@@ -75,4 +81,15 @@ class PostRepository @Inject constructor() {
         postRef.document(post.postId).set(post).await()
     }
 
+    suspend fun updateLikeCount(post: Post,uid: String) {
+        val isLiked=post.likedBy.contains(uid)
+        Log.d("@@",isLiked.toString())
+        //toggling the like button in firebase
+        if (isLiked){
+            post.likedBy.remove(uid)
+        }else{
+            post.likedBy.add(uid)
+        }
+        postRef.document(post.postId).set(post).await()
+    }
 }

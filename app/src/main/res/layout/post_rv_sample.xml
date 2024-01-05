@@ -83,11 +83,11 @@
             android:id="@+id/delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:visibility="gone"
             android:src="@drawable/baseline_delete_24"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postReadButton" />
+            app:layout_constraintTop_toTopOf="@+id/liked" />
 
         <ImageView
             android:id="@+id/edit"
@@ -99,6 +99,26 @@
             app:layout_constraintBottom_toBottomOf="@+id/delete"
             app:layout_constraintEnd_toStartOf="@+id/delete"
             app:layout_constraintTop_toTopOf="@+id/delete" />
+
+        <ImageView
+            android:id="@+id/liked"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/outline_favorite_border_24"
+            app:layout_constraintStart_toStartOf="@+id/postReadButton"
+            app:layout_constraintTop_toBottomOf="@+id/postReadButton" />
+
+        <TextView
+            android:id="@+id/likedCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/liked"
+            app:layout_constraintStart_toEndOf="@+id/liked"
+            app:layout_constraintTop_toTopOf="@+id/liked" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

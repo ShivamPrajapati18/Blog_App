@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.log
 
 class UsersRepository @Inject constructor(){
     @Inject
@@ -47,7 +48,13 @@ class UsersRepository @Inject constructor(){
     }
 
     suspend fun getProfileImage(name: String){
-        val img=storage.child("profile/$name").downloadUrl.await()
-        _profileImg.value=img
+        try {
+            val img=storage.child("profile/$name").downloadUrl.await()
+            _profileImg.value=img
+            Log.d("img",img.toString())
+        }catch (e:Exception){
+            Log.d("img", e.toString())
+        }
+
     }
 }

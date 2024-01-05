@@ -10,5 +10,6 @@ data class Post(
     val authorName:String="",
     val title: String = "",
     val description: String = "",
-    val date:String=""
+    val date:String="",
+    val likedBy: ArrayList<String> =ArrayList()
 ):Parcelable

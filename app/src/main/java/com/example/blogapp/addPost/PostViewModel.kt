@@ -63,4 +63,10 @@ class PostViewModel @Inject constructor(
             postRepository.updatePost(post)
         }
     }
+
+    fun updateLiked(post: Post,uid: String){
+        viewModelScope.launch {
+            postRepository.updateLikeCount(post, uid)
+        }
+    }
 }

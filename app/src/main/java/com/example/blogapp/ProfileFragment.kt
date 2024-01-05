@@ -52,10 +52,8 @@ class ProfileFragment : Fragment() {
         viewModel.getUserPost(mAuth.uid!!)
         lifecycleScope.launch {
             launch {
-                viewModel.userPost.collect {
-                    binding.userAllPost.adapter =
-                        PostAdapter(it, ::onClickReadButton, mAuth.uid, ::onDelete,::onUpdateButton)
-                    binding.userAllPost.layoutManager = LinearLayoutManager(context)
+                viewModel.userPost.collect {listOfPost->
+                    setUpAdapter(listOfPost)
                 }
 
             }
@@ -84,6 +82,25 @@ class ProfileFragment : Fragment() {
     private fun onUpdateButton(currentItem: Post){
         val bundle= bundleOf("post" to currentItem)
         findNavController().navigate(R.id.action_profileFragment_to_addPostFragment,bundle)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun onClickLikedButton(currentItem: Post){
+        viewModel.updateLiked(currentItem,mAuth.uid!!)
+        binding.userAllPost.adapter?.notifyDataSetChanged()
+    }
+
+    private fun setUpAdapter(item:List<Post>){
+        if (item.isNotEmpty()){
+            binding.userAllPost.adapter =
+                PostAdapter(item, ::onClickReadButton, mAuth.uid, ::onDelete,::onUpdateButton,::onClickLikedButton)
+            binding.userAllPost.layoutManager = LinearLayoutManager(context)
+            //setting visibility
+            binding.notPostLabel.visibility=View.GONE
+        }else{
+            binding.notPostLabel.visibility=View.VISIBLE
+        }
+
     }
 
     override fun onDestroy() {
