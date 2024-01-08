@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +21,7 @@ import com.example.blogapp.model.Post
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,6 +33,8 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var mAuth: FirebaseAuth
     private var profileImage: Uri? = null
+    private lateinit var postArrayList: ArrayList<Post>
+    private lateinit var mAdapter: PostAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -42,14 +46,21 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postArrayList=ArrayList()
+        mAdapter=PostAdapter(::onClickReadButton,mAuth.uid,::onClickLikedButton)
+        binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
         binding.addPost.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addPostFragment)
         }
         viewModel.getPost(mAuth.uid!!)
         lifecycleScope.launch {
-            viewModel.allPost.collect {
-                binding.recyclerView.adapter = PostAdapter(it, ::onClickReadButton,mAuth.uid,::onClickLikedButton)
-                binding.recyclerView.layoutManager = LinearLayoutManager(context)
+            viewModel.allPost.collect {listOfPost->
+                mAdapter.updateItem(listOfPost)
+                postArrayList.also {
+                    it.addAll(listOfPost)
+                }
             }
         }
         viewModel.getProfileImage(mAuth.uid!!)
@@ -65,8 +76,26 @@ class HomeFragment : Fragment() {
             val bundle = bundleOf("img" to profileImage.toString())
             findNavController().navigate(R.id.action_homeFragment_to_profileFragment,bundle)
         }
+        binding.searchView.setOnQueryTextListener(object :OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    filterData(it)
+                }
+                return true
+            }
+        })
     }
 
+    private fun filterData(text:String){
+        val newArrayList= ArrayList(postArrayList.filter {
+            it.title.contains(text,true)
+        })
+        mAdapter.updateItem(newArrayList)
+    }
     private fun onClickReadButton(currentItem: Post) {
         val bundle = bundleOf("post" to currentItem)
         findNavController().navigate(R.id.action_homeFragment_to_readPostFragment, bundle)
