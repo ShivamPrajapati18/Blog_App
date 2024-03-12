@@ -68,6 +68,11 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
+        binding.logOut.setOnClickListener {
+            mAuth.signOut()
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
     }
 
     private fun onDelete(postID: String) {

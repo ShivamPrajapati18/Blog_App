@@ -81,5 +81,10 @@
         <action
             android:id="@+id/action_profileFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

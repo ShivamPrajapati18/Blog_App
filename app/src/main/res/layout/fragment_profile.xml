@@ -8,7 +8,6 @@
     android:padding="16dp"
     tools:context=".ProfileFragment">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
@@ -25,14 +24,33 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/profileImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/baseline_person_24"
-                app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profileImage"
+                    android:layout_weight="1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/baseline_person_24"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
+
+                <ImageView
+                    android:id="@+id/logOut"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0"
+                    android:layout_gravity="end"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/baseline_logout_24"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView3"
